@@ -16,3 +16,15 @@ def signup(name: str, password: str) -> Status:
         password
 
     return Status(**{"status": status})
+
+
+@router.post("/signin")
+def signin(name: str, password: str) -> Status:
+    ## databaseに接続
+    signs = {"yutaka": "chiaki", "baba": "void", "masao": "hogara"}
+    if signs[name] == password:
+        status = True
+    else:
+        status = False
+
+    return Status(**{"status": status})
