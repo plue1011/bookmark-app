@@ -1,4 +1,5 @@
 from fastapi import APIRouter, FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from backend.routes.bookmark import router as bookmark_router
 from backend.routes.contents import router as contents_router
@@ -13,3 +14,7 @@ router.include_router(contents_router)
 
 app = FastAPI()
 app.include_router(router)
+
+app.add_middleware(
+    CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"]
+)
