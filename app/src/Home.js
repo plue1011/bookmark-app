@@ -3,6 +3,7 @@ import axios from "axios"
 import {Box,Button,Center,Heading} from "@chakra-ui/react"
 import {ReactSortable} from "react-sortablejs"
 import Tree from "./Tree"
+import Set from "./Set"
 
 export default function App(user_id) {
   const [group,setGroup] = useState([])
@@ -67,7 +68,7 @@ export default function App(user_id) {
     console.log(info)
     return(
     <Box>
-      <Box>集合です</Box>
+      <Box>{Set(info,setInfo)}</Box>
       <Button onClick={()=>{setPage("Home")}}>戻る</Button>
     </Box>
     )
