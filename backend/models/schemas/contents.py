@@ -15,11 +15,11 @@ class ContentInfo(BaseModel):
 
 
 class Content(BaseModel):
-    type: Literal["tree", "set"] = Field(description="folderの種類")
     id: UUID = Field(description="Contentのid")
     info: ContentInfo = Field(description="Contentの情報")
     children: Optional[List[Optional[Content]]] = Field(description="子ノードのリスト(リストの順番は木の左からの順番)")
 
 
 class Contents(BaseModel):
+    type: Literal["tree", "set"] = Field(description="folderの種類")
     contents: List[Content] = Field(description="Contentのリスト")

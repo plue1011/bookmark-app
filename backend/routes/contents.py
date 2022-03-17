@@ -22,8 +22,10 @@ def display_contents(folder_id: UUID) -> Contents:
     )
     nodes = [uuid.uuid4() for _ in range(5)]
     if random.randint(0, 2) == 1:
+        type = "tree"
         contents = [
             Content(
+                type=type,
                 id=nodes[0],
                 info=content_info,
                 children=[
@@ -40,8 +42,9 @@ def display_contents(folder_id: UUID) -> Contents:
             )
         ]
 
-        return Contents(contents=contents)
+        return Contents(type=type, contents=contents)
     else:
+        type = "set"
         contents = [
             Content(id=nodes[0], info=content_info),
             Content(id=nodes[1], info=content_info),
@@ -50,4 +53,4 @@ def display_contents(folder_id: UUID) -> Contents:
             Content(id=nodes[4], info=content_info),
         ]
 
-        return Contents(contents=contents)
+        return Contents(type=type, contents=contents)
