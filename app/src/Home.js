@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import axios from "axios"
 import {Box,Button,Center,Heading} from "@chakra-ui/react"
 import {ReactSortable} from "react-sortablejs"
+import Header from "./Header"
 import Tree from "./Tree"
 import Set from "./Set"
 
@@ -33,17 +34,7 @@ export default function App(user_id) {
   if (page == "Home"){
     return (
       <Box>
-        <Box
-        width="100%"
-        height="80px"
-        position="fixed"
-        bg="#319795"
-        padding="0 20px"
-        box-sizeing="border-box"
-        zIndex="sticky"
-        >
-          <Heading float="left" color="white">Bookmark</Heading>
-        </Box>
+        <Header/>
         <Box align='center' py="90px" maxWidth="1500px" margin="auto">
         <ReactSortable
         list={group}
@@ -68,6 +59,7 @@ export default function App(user_id) {
     console.log(info)
     return(
     <Box>
+      <Header/>
       <Box>{Set(info,setInfo)}</Box>
       <Button onClick={()=>{setPage("Home")}}>戻る</Button>
     </Box>
@@ -138,6 +130,7 @@ export default function App(user_id) {
     }
     return(
     <Box>
+      <Header/>
       <Box><Tree graph = {info_base.contents} setGraph = {setInfo}/></Box>
       <Button onClick={()=>{setPage("Home")}}>戻る</Button>
     </Box>
