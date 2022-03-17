@@ -2,8 +2,9 @@ import random
 import uuid
 from uuid import UUID
 
-from backend.models.schemas.contents import Content, ContentInfo, Contents
 from fastapi import APIRouter
+
+from backend.models.schemas.contents import Content, ContentInfo, Contents
 
 router = APIRouter()
 
@@ -21,16 +22,29 @@ def display_contents(folder_id: UUID) -> Contents:
     )
     nodes = [uuid.uuid4() for _ in range(5)]
     if random.randint(0, 2) == 1:
+        type = "tree"
         contents = [
-            Content(id=nodes[0], info=content_info, children=[nodes[1], nodes[2]]),
-            Content(id=nodes[1], info=content_info, children=[nodes[3], nodes[4]]),
-            Content(id=nodes[2], info=content_info, children=[]),
-            Content(id=nodes[3], info=content_info, children=[]),
-            Content(id=nodes[4], info=content_info, children=[]),
+            Content(
+                type=type,
+                id=nodes[0],
+                info=content_info,
+                children=[
+                    Content(
+                        id=nodes[1],
+                        info=content_info,
+                        children=[
+                            Content(id=nodes[3], info=content_info, children=[]),
+                            Content(id=nodes[4], info=content_info, children=[]),
+                        ],
+                    ),
+                    Content(id=nodes[2], info=content_info, children=[]),
+                ],
+            )
         ]
 
-        return Contents(contents=contents)
+        return Contents(type=type, contents=contents)
     else:
+        type = "set"
         contents = [
             Content(id=nodes[0], info=content_info),
             Content(id=nodes[1], info=content_info),
@@ -39,4 +53,4 @@ def display_contents(folder_id: UUID) -> Contents:
             Content(id=nodes[4], info=content_info),
         ]
 
-        return Contents(contents=contents)
+        return Contents(type=type, contents=contents)
