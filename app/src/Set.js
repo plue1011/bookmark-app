@@ -5,18 +5,6 @@ import Content from "./Content"
 
 export default function Set(group,setGroup) {
     return (
-      <Box>
-      <Box
-      width="100%"
-      height="80px"
-      position="fixed"
-      bg="#319795"
-      padding="0 20px"
-      box-sizeing="border-box"
-      zIndex="sticky"
-      >
-        <Heading float="left" color="white">Bookmark</Heading>
-      </Box>
       <Box align='center' py="90px" maxWidth="1500px" margin="auto">
       <ReactSortable
       list={group}
@@ -29,7 +17,6 @@ export default function Set(group,setGroup) {
         {Content(bookmark.info)}
       </Box>)}
       </ReactSortable>
-      </Box>
       </Box>
     );
 }
