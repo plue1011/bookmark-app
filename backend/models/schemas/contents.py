@@ -8,10 +8,10 @@ from pydantic import BaseModel, Field
 
 class ContentInfo(BaseModel):
     url: str = Field(description="URL")
-    image: str = Field(description="イメージ画像のsrc")
-    description: str = Field(description="自動で付与される説明文")
-    title: str = Field(description="ページタイトル")
-    comment: str = Field(description="ユーザがつけるコメント")
+    image: Optional[str] = Field(description="イメージ画像のsrc")
+    description: Optional[str] = Field(description="自動で付与される説明文")
+    title: Optional[str] = Field(description="ページタイトル")
+    comment: Optional[str] = Field(description="ユーザがつけるコメント")
 
 
 class Content(BaseModel):
