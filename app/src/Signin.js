@@ -94,7 +94,7 @@ const Signin = () => {
         </Box>
       </Stack>
       <Box>
-        New to us?{" "}
+        Don't have an account?{" "}
         <Link color="teal.500" href="Signup">
           Sign Up
         </Link>

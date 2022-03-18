@@ -13,17 +13,41 @@ import {
   Avatar,
   FormControl,
   FormHelperText,
-  InputRightElement
+  InputRightElement,
+  Text
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import axios from "axios";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
+const getUserExist = async (userName,password) => {
+    const url = `http://127.0.0.1:8010/signup?name=${userName}&password=${password}`;
+    const json = await axios.post(url)
+        .then(res => {
+            return res.data
+        }
+    )
+    console.log(url)
+    return json.status
+}
+
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const handleShowClick = () => setShowPassword(!showPassword);
+
+  const [password, setPassword] = useState("");
+  const handlePassword = (event) => setPassword(event.target.value);
+
+  const [userName, setUserName] = useState("");
+  const [userExist, setUserExist] = useState(true);
+
+  const handleUser = async (event) => {
+    setUserName(event.target.value);
+    let userExistTemp = await getUserExist(event.target.value,password);
+    setUserExist(userExistTemp);
+  };
 
   return (
     <Flex
@@ -56,8 +80,15 @@ const Signup = () => {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="text" placeholder="user name" />
+                  <Input
+                   onChange={handleUser}
+                   type="text"
+                   placeholder="user name" />
                 </InputGroup>
+                {userExist
+                    ?<Text fontSize='16px' color='tomato'>{userExist.toString()}</Text>
+                    :<Text fontSize='16px' color='tomato'>User name already exists</Text>
+                }
               </FormControl>
               <FormControl>
                 <InputGroup>
@@ -67,6 +98,7 @@ const Signup = () => {
                     children={<CFaLock color="gray.300" />}
                   />
                   <Input
+                    onChange={handlePassword}
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                   />
@@ -94,7 +126,7 @@ const Signup = () => {
         </Box>
       </Stack>
       <Box>
-        New to us?{" "}
+        Have an account?{" "}
         <Link color="teal.500" href="Signin">
           Sign In
         </Link>
