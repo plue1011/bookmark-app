@@ -21,16 +21,13 @@ def get_ogp(url: str) -> Optional[OGP]:
 
     template = Template('<meta property="og:${og}" content="(.*?)"')
     _image_url = re.search(template.substitute(og="image"), html, flags=re.DOTALL)
-    if _image_url:
-        image_url = _image_url.group(1)
+    image_url = _image_url.group(1) if _image_url else None
 
     _title = re.search(template.substitute(og="title"), html, flags=re.DOTALL)
-    if _title:
-        title = _title.group(1)
+    title = _title.group(1) if _title else None
 
     _description = re.search(template.substitute(og="description"), html, flags=re.DOTALL)
-    if _description:
-        description = _description.group(1)
+    description = _description.group(1) if _description else None
 
     return OGP(title=title, image_url=image_url, description=description)
 
