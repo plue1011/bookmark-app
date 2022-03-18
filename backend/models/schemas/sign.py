@@ -8,9 +8,9 @@ class SignUp(BaseModel):
     status: bool = Field(description="signupが成功したか否か")
 
 
-class SignUpInput(BaseModel):
-    name: str = Field(description="signupの名前")
-    password: str = Field(description="signupのパスワード")
+class Sign(BaseModel):
+    name: str = Field(description="signの名前")
+    password: str = Field(description="signのパスワード")
 
 
 class SignIn(BaseModel):
