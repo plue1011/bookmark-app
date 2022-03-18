@@ -2,20 +2,20 @@ import uuid
 
 from fastapi import APIRouter
 
-from backend.models.schemas.sign import SignIn, SignUp
+from backend.models.schemas.sign import SignIn, SignUp, SignUpInput
 
 router = APIRouter()
 
 
 @router.post("/signup")
-def signup(name: str, password: str) -> SignUp:
+def signup(sign_up_input: SignUpInput) -> SignUp:
     names = ["yutaka", "masao", "baba"]
-    if name in names:
+    if sign_up_input.name in names:
         status = False
     else:
         status = True
         # databaseに登録
-        password
+        sign_up_input.password
 
     return SignUp(**{"status": status})
 
