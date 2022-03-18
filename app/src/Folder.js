@@ -3,12 +3,13 @@ import {Box,Button,Center,Heading} from "@chakra-ui/react"
 import {ReactSortable} from "react-sortablejs"
 import axios from "axios"
 
-export default function Folder(group,setGroup,info,setInfo){
+export default function Folder(group,setGroup,setPage,setInfo){
 
     function ClickFile(folder_id){
         axios.get(`http://127.0.0.1:8010/contents/${folder_id}`)
           .then((res) => {
             setInfo(res.data.contents)
+            setPage(res.data.type)
           })
           .catch((err) => {console.log("contentsAPI err:",err)})
       }

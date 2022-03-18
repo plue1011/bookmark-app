@@ -17,7 +17,6 @@ export default function App(user_id) {
     axios.get(`http://127.0.0.1:8010/folders/${user_id}`)
       .then((res) => {
         setGroup(res.data.folder_list)
-        setPage(res.data.type)
       })
       .catch((err) => {console.log("foldersAPI err:",err)})
     },[])
@@ -26,7 +25,7 @@ export default function App(user_id) {
     return (
       <Box>
         <Header/>
-        {Folder(group,setGroup,info,setInfo)}
+        {Folder(group,setGroup,setPage,setInfo)}
       </Box>
     )
   }
