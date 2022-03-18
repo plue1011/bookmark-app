@@ -10,12 +10,17 @@ export default function App(user_id) {
   const [group,setGroup] = useState([])
   const [page,setPage] = useState("home")
   const [info,setInfo] = useState("")
+
+  console.log(page)
+
   useEffect(() => {
     axios.get(`http://127.0.0.1:8010/folders/${user_id}`)
       .then((res) => {
         setGroup(res.data.folder_list)
+        setPage(res.data.type)
       })
       .catch((err) => {console.log("foldersAPI err:",err)})
+    },[])
   
   if (page == "home"){
     return (
@@ -38,8 +43,8 @@ export default function App(user_id) {
     return(
     <Box>
       <Header/>
-      <Box><Tree graph = {info_base.contents} setGraph = {setInfo}/></Box>
-      <Button onClick={()=>{setPage("Home")}}>戻る</Button>
+      <Box><Tree graph = {info} setGraph = {setInfo}/></Box>
+      <Button onClick={()=>{setPage("home")}}>戻る</Button>
     </Box>
     )
   }
