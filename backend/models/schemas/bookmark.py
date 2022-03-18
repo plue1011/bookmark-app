@@ -10,6 +10,10 @@ class OGP(BaseModel):
     description: Optional[str] = Field(description="メタタグのog:descriptionから抽出できるもの")
 
 
+class Url(BaseModel):
+    url: str = Field(description="url")
+
+
 class BookMark(BaseModel):
     id: UUID = Field(description="URLのid")
     url: str = Field(description="URL")
