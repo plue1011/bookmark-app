@@ -6,7 +6,7 @@ import axios from "axios"
 export default function Folder(group,setGroup,setPage,setInfo){
 
     function ClickFile(folder_id){
-        axios.get(`http://127.0.0.1:8010/contents/${folder_id}`)
+        axios.get(`http://127.0.0.1:8020/contents/${folder_id}`)
           .then((res) => {
             setInfo(res.data.contents)
             setPage(res.data.type)

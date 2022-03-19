@@ -12,19 +12,13 @@ export default function App(user_id) {
   const [info,setInfo] = useState("")
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8010/folders/${user_id}`)
+    axios.get(`http://127.0.0.1:8020/folders/${user_id}`)
       .then((res) => {
         setGroup(res.data.folder_list)
         console.log(res.data)
       })
       .catch((err) => {console.log("foldersAPI err:",err)})
     },[])
-  
-    axios.get(`http://127.0.0.1:8010/folders/${user_id}`)
-    .then((res) => {
-      setGroup(res.data.folder_list)
-      console.log(res.data)
-    })
   
   if (page == "home"){
     return (
