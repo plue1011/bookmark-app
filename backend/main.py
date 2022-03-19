@@ -14,13 +14,6 @@ router.include_router(bookmark_router)
 router.include_router(contents_router)
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,   # 追記により追加
-    allow_methods=["*"],      # 追記により追加
-    allow_headers=["*"]       # 追記により追加
-)
 app.include_router(router)
 
 app.add_middleware(
