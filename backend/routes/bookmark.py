@@ -6,7 +6,7 @@ from typing import Optional
 import requests
 from fastapi import APIRouter
 
-from backend.models.schemas.bookmark import OGP, BookMark
+from backend.models.schemas.bookmark import OGP, BookMark, Url
 
 router = APIRouter()
 
@@ -33,8 +33,8 @@ def get_ogp(url: str) -> Optional[OGP]:
 
 
 @router.post("/bookmark")
-def bookmark(url: str) -> BookMark:
-    bookmark = {"url": url}
+def bookmark(url: Url) -> BookMark:
+    bookmark = {"url": Url.url}
     # databaseを検索し、存在しなければogpを抽出してくる
     if True:
         if ogp := get_ogp(url):
