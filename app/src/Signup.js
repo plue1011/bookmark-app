@@ -24,17 +24,6 @@ import axios from "axios";
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
-const getUserExist = async (userName,password) => {
-    const url = `http://127.0.0.1:8010/signup?name=${userName}&password=${password}`;
-    const json = await axios.post(url)
-        .then(res => {
-            return res.data
-        }
-    )
-    console.log(url)
-    return json.status
-}
-
 const Signup = () => {
   const {
     handleSubmit,
@@ -46,12 +35,29 @@ const Signup = () => {
   const handleShowClick = () => setShowPassword(!showPassword);
   const [showPasswordConfigurelation, setShowPasswordConfigurelation] = useState(false);
   const handleShowClickConfigurelation = () => setShowPasswordConfigurelation(!showPasswordConfigurelation);
+  const [userExist, setUserExist] = useState(true);
   const userName = useRef({});
   userName.current = watch("userName", "");
   const password = useRef({});
   password.current = watch("password", "");
   const passwordConfigurelation = useRef({});
   passwordConfigurelation.current = watch("passwordConfigurelation", "");
+
+  const getUserExist = async (userName,password) => {
+    const url = `http://127.0.0.1:8010/signup?name=${userName}&password=${password}`;
+    const json = await axios.post(url)
+        .then(res => {
+            return res.data
+        }
+    )
+    console.log(url)
+    return json.status
+  };
+  
+  const handleUser = async (event) => {
+    const userExist = await getUserExist(event.target.value);
+    setUserExist(userExist);
+  };
 
   const onSubmit = async data => {
     alert(JSON.stringify(data));
@@ -96,14 +102,16 @@ const Signup = () => {
                     {...register("userName", {
                       required: "This is required",
                       minLength: { value: 4, message: "Minimum length should be 4" },
-                      pattern: { value: /^[A-Za-z0-9]+$/i, message: "Alphabet or number only" }
+                      pattern: { value: /^[A-Za-z0-9]+$/i, message: "Alphabet or number only" },
+                      onChange: handleUser
                     })}
                   />
                 </InputGroup>
+                {!userExist && <Text fontSize='14px' color='red'>User name already exists</Text>}
                 <FormHelperText textAlign="right">
                 </FormHelperText>
-                <FormErrorMessage>
-                  {errors.userName && errors.userName.message}
+                <FormErrorMessage color='red'>
+                  {errors.userName && <Text fontSize='14px' color='red'>{errors.userName.message}</Text>}
                 </FormErrorMessage>
               </FormControl>
               {/* Password の入力 */}
@@ -134,7 +142,7 @@ const Signup = () => {
                 <FormHelperText textAlign="right">
                 </FormHelperText>
                 <FormErrorMessage>
-                {errors.password && <p>{errors.password.message}</p>}
+                {errors.password && <Text fontSize='14px' color='red'>{errors.password.message}</Text>}
                 </FormErrorMessage>
               </FormControl>
               {/* Password Configurelationの入力 */}
@@ -163,9 +171,10 @@ const Signup = () => {
                 <FormHelperText textAlign="right">
                 </FormHelperText>
                 <FormErrorMessage>
-                {errors.passwordConfigurelation && <p>{errors.passwordConfigurelation.message}</p>}
+                {errors.passwordConfigurelation && <Text fontSize='14px' color='red'>{errors.passwordConfigurelation.message}</Text>}
                 </FormErrorMessage>
               </FormControl>
+              <Link href="/Home">
               <Button
                 borderRadius={0}
                 type="submit"
@@ -176,6 +185,7 @@ const Signup = () => {
               >
                 Register
               </Button>
+              </Link>
             </Stack>
           </form>
         </Box>
