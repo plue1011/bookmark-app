@@ -20,8 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import axios from "axios";
-import UserName from "./UserName";
-import Password from "./Password";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -97,7 +95,8 @@ const Signup = () => {
                     placeholder="user name"
                     {...register("userName", {
                       required: "This is required",
-                      minLength: { value: 4, message: "Minimum length should be 4" }
+                      minLength: { value: 4, message: "Minimum length should be 4" },
+                      pattern: { value: /^[A-Za-z0-9]+$/i, message: "Alphabet or number only" }
                     })}
                   />
                 </InputGroup>
@@ -121,7 +120,8 @@ const Signup = () => {
                         type={showPassword ? "text" : "password"}
                         {...register("password", {
                         required: "This is required",
-                        minLength: { value: 4, message: "Minimum length should be 4" }
+                        minLength: { value: 8, message: "Minimum length should be 8" },
+                        pattern: { value: /^[A-Za-z0-9]+$/i, message: "Alphabet or number only" }
                         })}
                     />
                     
