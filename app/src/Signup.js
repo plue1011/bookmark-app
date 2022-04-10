@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
+import { useForm } from "react-hook-form";
 import {
   Flex,
   Heading,
@@ -13,11 +14,14 @@ import {
   Avatar,
   FormControl,
   FormHelperText,
+  FormErrorMessage,
   InputRightElement,
   Text
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import axios from "axios";
+import UserName from "./UserName";
+import Password from "./Password";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -34,19 +38,25 @@ const getUserExist = async (userName,password) => {
 }
 
 const Signup = () => {
+  const {
+    handleSubmit,
+    watch,
+    register,
+    formState: { errors, isSubmitting }
+  } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const handleShowClick = () => setShowPassword(!showPassword);
+  const [showPasswordConfigurelation, setShowPasswordConfigurelation] = useState(false);
+  const handleShowClickConfigurelation = () => setShowPasswordConfigurelation(!showPasswordConfigurelation);
+  const userName = useRef({});
+  userName.current = watch("userName", "");
+  const password = useRef({});
+  password.current = watch("password", "");
+  const passwordConfigurelation = useRef({});
+  passwordConfigurelation.current = watch("passwordConfigurelation", "");
 
-  const [password, setPassword] = useState("");
-  const handlePassword = (event) => setPassword(event.target.value);
-
-  const [userName, setUserName] = useState("");
-  const [userExist, setUserExist] = useState(true);
-
-  const handleUser = async (event) => {
-    setUserName(event.target.value);
-    let userExistTemp = await getUserExist(event.target.value,password);
-    setUserExist(userExistTemp);
+  const onSubmit = async data => {
+    alert(JSON.stringify(data));
   };
 
   return (
@@ -67,30 +77,15 @@ const Signup = () => {
         <Avatar bg="teal.500" />
         <Heading color="teal.400">Welcome</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Stack
               spacing={4}
               p="1rem"
               backgroundColor="whiteAlpha.900"
               boxShadow="md"
             >
-              <FormControl>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<CFaUserAlt color="gray.300" />}
-                  />
-                  <Input
-                   onChange={handleUser}
-                   type="text"
-                   placeholder="user name" />
-                </InputGroup>
-                {userExist
-                    ?<Text fontSize='16px' color='tomato'>{userExist.toString()}</Text>
-                    :<Text fontSize='16px' color='tomato'>User name already exists</Text>
-                }
-              </FormControl>
-              <FormControl>
+              {/* User Name の入力 */}
+              <FormControl isInvalid={errors.userName}>
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents="none"
@@ -98,19 +93,78 @@ const Signup = () => {
                     children={<CFaLock color="gray.300" />}
                   />
                   <Input
-                    onChange={handlePassword}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
+                    id="userName"
+                    placeholder="user name"
+                    {...register("userName", {
+                      required: "This is required",
+                      minLength: { value: 4, message: "Minimum length should be 4" }
+                    })}
                   />
+                </InputGroup>
+                <FormHelperText textAlign="right">
+                </FormHelperText>
+                <FormErrorMessage>
+                  {errors.userName && errors.userName.message}
+                </FormErrorMessage>
+              </FormControl>
+              {/* Password の入力 */}
+              <FormControl  isInvalid={errors.password}>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    color="gray.300"
+                    children={<CFaLock color="gray.300" />}
+                  />
+                    <Input
+                        id="password"
+                        placeholder="password"
+                        type={showPassword ? "text" : "password"}
+                        {...register("password", {
+                        required: "This is required",
+                        minLength: { value: 4, message: "Minimum length should be 4" }
+                        })}
+                    />
+                    
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
                       {showPassword ? "Hide" : "Show"}
                     </Button>
                   </InputRightElement>
-                </InputGroup>
+                  </InputGroup>
                 <FormHelperText textAlign="right">
-                  {/* <Link>forgot password?</Link> */}
                 </FormHelperText>
+                <FormErrorMessage>
+                {errors.password && <p>{errors.password.message}</p>}
+                </FormErrorMessage>
+              </FormControl>
+              {/* Password Configurelationの入力 */}
+              <FormControl  isInvalid={errors.passwordConfigurelation}>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    color="gray.300"
+                    children={<CFaLock color="gray.300" />}
+                  />
+                    <Input
+                        id="passwordConfigurelation"
+                        placeholder="password configurelation"
+                        type={showPasswordConfigurelation ? "text" : "password"}
+                        {...register("passwordConfigurelation", {
+                            validate: value =>
+                            value === password.current || "The passwords do not match"
+                        })}
+                    />
+                  <InputRightElement width="4.5rem">
+                    <Button h="1.75rem" size="sm" onClick={handleShowClickConfigurelation}>
+                      {showPasswordConfigurelation ? "Hide" : "Show"}
+                    </Button>
+                  </InputRightElement>
+                  </InputGroup>
+                <FormHelperText textAlign="right">
+                </FormHelperText>
+                <FormErrorMessage>
+                {errors.passwordConfigurelation && <p>{errors.passwordConfigurelation.message}</p>}
+                </FormErrorMessage>
               </FormControl>
               <Button
                 borderRadius={0}
@@ -118,6 +172,7 @@ const Signup = () => {
                 variant="solid"
                 colorScheme="teal"
                 width="full"
+                isLoading={isSubmitting} 
               >
                 Register
               </Button>
