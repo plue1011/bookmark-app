@@ -4,7 +4,7 @@ from uuid import UUID
 
 from fastapi import APIRouter
 
-from backend.models.schemas.contents import Content, ContentInfo, Contents
+from ..models.schemas.contents import Content, ContentInfo, Contents
 
 router = APIRouter()
 

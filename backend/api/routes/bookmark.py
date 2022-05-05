@@ -6,7 +6,7 @@ from typing import Optional
 import requests
 from fastapi import APIRouter
 
-from backend.models.schemas.bookmark import OGP, BookMark, Url
+from ..models.schemas.bookmark import OGP, BookMark, Url
 
 router = APIRouter()
 

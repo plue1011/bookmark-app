@@ -26,4 +26,4 @@ services:
     ports:
       - 8001:8001
     volumes:
-      - ./api:/usr/src/server
+      - ./api:/usr/src/backend/api
