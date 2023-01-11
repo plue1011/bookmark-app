@@ -1,0 +1,6 @@
+uvicorn
+fastapi
+mysqlclient
+sqlmodel
+sqlalchemy
+requests

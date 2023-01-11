@@ -2,7 +2,7 @@ import uuid
 
 from fastapi import APIRouter
 
-from backend.models.schemas.sign import Sign, SignIn, SignUp
+from ..models.schemas.sign import Sign, SignIn, SignUp
 
 router = APIRouter()
 
